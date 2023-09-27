@@ -1,5 +1,3 @@
-'use client'
-
 import Providers from "@/meddy/app/providers"
 import "@/meddy/app/globals.css"
 import Toaster from "@/meddy/components/Toaster"
