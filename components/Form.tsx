@@ -5,13 +5,13 @@ import { FormEvent } from "react";
 import toast from "react-hot-toast";
 
 const Form = ({ children, className, action }: 
-  { children: React.ReactNode; className?: string, action: string; }
+  { children: React.ReactNode; className?: string, action?: string; }
 ) => {
   const router = useRouter()
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const res = await fetch(action, {
+    const res = await fetch(action as string, {
       method: "POST",
       body: formData,
       redirect: "manual"
