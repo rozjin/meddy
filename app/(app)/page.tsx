@@ -63,8 +63,9 @@ export default () => {
           <span className="mt-2 text-lg font-semibold">Search</span>
           <span className="font-medium">Medications</span>
         </Card>
-
-        <Card 
+      </div>
+      <div className="grid w-full grid-cols-1 sm:grid-cols-2 grid-rows-2 gap-4 mt-4">
+      <Card 
           isPressable
           onPress={() => toast("Fax number copied to your clipboard")}
 
@@ -96,7 +97,6 @@ export default () => {
             <h6 className="font-semibold text-md">Sat: 11:00AM - 7:00 PM, NZST</h6>
           </div>
         </Card>
-
       </div>
     </>
   )
