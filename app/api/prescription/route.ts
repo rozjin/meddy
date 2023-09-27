@@ -64,9 +64,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
                     capitalization: 'uppercase'
                 });
 
-                const pictures = await Promise.all(files?.map(async (o) => {
-                    const file = o as File
-
+                const pictures = await Promise.all(files?.map(async (file: File) => {
                     const name = `${generate({ length: 12, capitalization: 'uppercase' })}.${mime.extension(file.type)}`
                     const path = `${friendly_id}-${name}`
 
