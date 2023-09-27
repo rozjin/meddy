@@ -31,7 +31,7 @@ export default () => {
       </div>
       <Divider orientation="horizontal" className="my-2" />
       <Accordion>
-        {!isLoading && data.medicines.map(medicine => (
+        {!isLoading && (data as any).medicines.map((medicine: any) => (
           <AccordionItem
             classNames={{
               trigger: "bg-white p-2 rounded-lg bg-purple-50",

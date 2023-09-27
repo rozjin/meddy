@@ -29,7 +29,7 @@ export default () => {
   const { data, isLoading, error } = useSWR('/api/prescription', fetcher)
 
   useEffect(() => {
-    if (data) setPrescriptionsOpen(data.prescriptions.map(_ => false))
+    if (data) setPrescriptionsOpen((data as any).prescriptions.map((_: any) => false))
   }, [data])
 
   return (
@@ -76,11 +76,11 @@ export default () => {
       </div>
       <Divider orientation="horizontal" className="my-2" />
       <Accordion>
-        {!isLoading && data.prescriptions.filter(prescription => ({
+        {!isLoading && (data as any).prescriptions.filter((prescription: any) => ({
             0: true,
             1: prescription.progress == "FILLED",
             2: prescription.progress == "CANCELLED"
-          }[prescriptionFilter])).map((prescription, idx) => (
+          }[prescriptionFilter])).map((prescription: any, idx: number) => (
           <AccordionItem
             title={`Created On: ${new Date(prescription.created).toLocaleString('en-NZ')}`}
             subtitle={`Prescription ID: ${prescription.friendly_id}`}
@@ -265,7 +265,7 @@ export default () => {
               </Modal>
             </div>
             <div className="flex flex-row justify-start items-center gap-2 overflow-scroll mt-4">
-              {prescription.pictures.map(picture => (
+              {prescription.pictures.map((picture: any) => (
                 <ImageZoom 
                   height="128"
                   width="128"
