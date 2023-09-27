@@ -41,9 +41,9 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
                     aria-label="Choose medicines"
                     selectionMode="multiple"
                     selectedKeys={selectedMedicines}
-                    onSelectionChange={setSelectedMedicines}
+                    onSelectionChange={(keys) => setSelectedMedicines(keys as unknown as string[])}
                   >
-                    {medicineData.medicines.map(medicine => (
+                    {(medicineData as any).medicines.map((medicine: any) => (
                       <ListboxItem
                         key={medicine.friendly_id}
                         textValue={medicine.name}
