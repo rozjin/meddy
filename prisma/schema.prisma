@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  
+  email String @unique
+  password String
+
+  name String?
+  dob DateTime?
+
+  gender String?
+
+  phone_number String?
+
+  patient Patient?
+}
+
+model Patient {
+  id Int @id @default(autoincrement())
+
+  friendly_id String @unique
+  nhi String? @unique
+
+  otc String[]
+
+  is_allergic Boolean @default(false)
+  allergies Allergy[]
+
+  medicines Medicine[]
+  prescriptions Prescription[]
+
+  proof_id String[]
+  address String?
+
+  user User @relation(fields: [user_id], references: [id])
+  user_id Int @unique
+}
+
+
+model Allergy {
+  id Int @id @default(autoincrement())
+
+  trigger String
+  condition String
+
+  patient Patient @relation(fields: [patient_id], references: [id])
+  patient_id Int
+}
+
+model Medicine {
+  id Int @id @default(autoincrement())
+  friendly_id String @unique
+
+  name String
+
+  is_renew Boolean @default(false)
+  prescriber String
+
+  quantity Int
+  filled Int
+  note String?
+
+  unit String
+
+  is_packs Boolean @default(false)
+
+  next_renewal DateTime
+
+  patient Patient? @relation(fields: [patient_id], references: [id])
+  patient_id Int
+
+  prescription Prescription? @relation(fields: [prescription_id], references: [id])
+  prescription_id Int
+
+  orders MedicineOrder[]
+}
+
+model Prescription {
+  id Int @id @default(autoincrement())
+  friendly_id String @unique
+
+  method PrescriptionMethod
+  progress PrescriptionProgress
+
+  created DateTime @default(now())
+
+  medicines Medicine[]
+  pictures String[]
+
+  patient Patient @relation(fields: [patient_id], references: [id])
+  patient_id Int
+}
+
+model MedicineOrder {
+  id Int @id @default(autoincrement())
+
+  created DateTime @default(now())
+
+  filled Int
+
+  medicine Medicine @relation(fields: [medicine_id], references: [id])
+  medicine_id Int
+
+  order Order @relation(fields: [order_id], references: [id])
+  order_id Int
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  friendly_id String @unique 
+
+  created DateTime @default(now())
+  delivered DateTime
+
+  ask_consult Boolean @default(false)
+  is_consult Boolean @default(false)
+
+  progress OrderProgress
+
+  address String
+
+  medicines MedicineOrder[]
+}
+
+enum OrderProgress {
+  PREPARING
+  CONSULT
+  
+  SHIPPED
+  TRANSIT
+
+  DELIVERED
+}
+
+enum PrescriptionMethod {
+  UPLOAD
+  MAIL
+  FAX
+  EPS
+}
+
+enum PrescriptionProgress {  
+  REQUESTED
+  RECEIVED
+
+  FILLED
+  CANCELLED
+}

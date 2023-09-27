@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.action {
+    @apply flex flex-col items-start justify-between p-4 text-purple-800 bg-white ring-1 ring-purple-800 hover:ring-2
+}
