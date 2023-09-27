@@ -3,7 +3,6 @@ const nextConfig = {
     productionBrowserSourceMaps: false,
     optimizeFonts: false,
     swcMinify: true,
-    modularizeImports: true,
 
     experimental: {
         serverComponentsExternalPackages: ['argon2']
