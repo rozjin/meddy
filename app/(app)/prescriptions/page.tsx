@@ -172,7 +172,7 @@ export default () => {
                               subtitle="A request was sent to receive your prescription electronically"
                             ></AccordionItem>
                           )
-                        }[prescription.method as string]}
+                        }[prescription.method as string] || <></>}
                         {{ "MAIL": (
                               <AccordionItem
                                 classNames={{
@@ -232,7 +232,7 @@ export default () => {
                                 subtitle="Your prescriptions were received and can now be viewed in your profile"
                               ></AccordionItem>
                             )
-                          }[prescription.method as string]}
+                          }[prescription.method as string] || <></>}
                         <AccordionItem
                           classNames={{
                             trigger: "bg-white p-2 rounded-lg bg-purple-50",
