@@ -15,31 +15,35 @@ export const authOptions: NextAuthOptions = {
             },
 
             authorize: async (credentials) => {
-                const user = await prisma.user.findUnique({
-                    where: {
-                        email: credentials?.email
-                    },
+                try {
+                    const user = await prisma.user.findUnique({
+                        where: {
+                            email: credentials?.email
+                        },
 
-                    select: {
-                        id: true,
-                        email: true,
-                        name: true,
+                        select: {
+                            id: true,
+                            email: true,
+                            name: true,
 
-                        password: true
+                            password: true
+                        }
+                    })
+
+                    if (user) {
+                        if (await argon2.verify(user.password, credentials?.password as string)) {
+                            return {
+                                id: `${user.id}`,
+        
+                                email: user.email,
+                                name: user.name,
+        
+                                image: null
+                            }   
+                        }
                     }
-                })
-
-                if (user) {
-                    if (await argon2.verify(user.password, credentials?.password as string)) {
-                        return {
-                            id: `${user.id}`,
-    
-                            email: user.email,
-                            name: user.name,
-    
-                            image: null
-                        }   
-                    }
+                } catch (err) {
+                    console.error(`Error authenticating: ${err}`)
                 }
 
                 return null

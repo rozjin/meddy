@@ -2,8 +2,8 @@
 
 import SearchMedicines from "@/meddy/components/SearchMedicines";
 import { fetcher } from "@/meddy/hooks/fetcher";
-import { Accordion, AccordionItem, Button, Chip, Divider, useDisclosure } from "@nextui-org/react"
-import { RiSearchLine } from "react-icons/ri";
+import { Accordion, AccordionItem, Button, Chip, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@nextui-org/react"
+import { RiEye2Line, RiSearchLine } from "react-icons/ri";
 import useSWR from "swr";
 
 export default () => {
@@ -14,10 +14,36 @@ export default () => {
   return (
     <>
       <div className="flex flex-row items-center justify-between w-full mb-1 -mt-1 bg-purple-50 p-2 rounded-xl">
-        <div className="flex flex-row items-center">
-          <span className="mr-4 text-base text-purple-800 font-semibold">Showing:</span>
-          <Chip className="text-purple-800 bg-purple-100" size="lg">All</Chip>
-        </div>
+      <Dropdown>
+          <DropdownTrigger>
+            <Button
+              isIconOnly
+              variant="flat"
+              className="text-purple-800 bg-purple-100"
+            >
+              <RiEye2Line className="w-4 h-4" />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            items={new Array([0, 1, 2])}
+
+            selectionMode="single"
+            defaultSelectedKeys={[0]}
+
+            disallowEmptySelection
+            variant="flat"
+          >
+            <DropdownItem key={0} className="text-purple-800 bg-purple-100">
+              All
+            </DropdownItem>
+            <DropdownItem key={1} className="text-purple-800 bg-purple-100">
+              Filled  
+            </DropdownItem>
+            <DropdownItem key={2} className="text-purple-800 bg-purple-100">
+              Cancelled  
+            </DropdownItem>          
+          </DropdownMenu>
+        </Dropdown>
         <Button
           isIconOnly 
           variant="flat" 

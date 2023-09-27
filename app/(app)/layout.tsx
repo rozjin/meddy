@@ -13,7 +13,8 @@ export default ({ children } : { children: React.ReactNode }) => {
     <>
       <Tabs 
         aria-label="Navigation" 
-        className="flex flex-row items-center justify-center w-full m-4" 
+        className="flex flex-row items-center justify-center" 
+        fullWidth
 
         selectedKey={path}
         onSelectionChange={(key) => router.push(`/${key}`)}

@@ -3,8 +3,8 @@
 import PrescriptionUpload from "@/meddy/components/PrescriptionUpload";
 import TransferRefill from "@/meddy/components/TransferRefill";
 import { fetcher } from "@/meddy/hooks/fetcher";
-import { Accordion, AccordionItem, Button, Chip, Divider, Image, Modal, ModalBody, ModalContent, toggle, useDisclosure } from "@nextui-org/react"
-import { RiFileUploadLine, RiArrowLeftRightLine, RiSearch2Line, RiImage2Line } from 'react-icons/ri'
+import { Accordion, AccordionItem, Button, Chip, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Listbox, ListboxItem, Modal, ModalBody, ModalContent, Select, SelectItem, toggle, useDisclosure } from "@nextui-org/react"
+import { RiFileUploadLine, RiArrowLeftRightLine, RiSearch2Line, RiImage2Line, RiEye2Line, RiCloseLine, RiCheckLine } from 'react-icons/ri'
 
 import { useEffect, useState } from "react";
 
@@ -34,23 +34,40 @@ export default () => {
 
   return (
     <>
-      <div className="flex flex-row items-center justify-between w-full -mt-2 bg-purple-50 p-2 rounded-xl">
-        <div className="flex flex-row items-center">
-          <span className="mr-4 text-base text-purple-800 font-semibold">Showing: </span>
-          <Chip 
-            className="text-purple-800 bg-purple-100 cursor-pointer" size="lg"
+      <div className="flex flex-row items-center justify-between w-full -mt-1 mb-1 bg-purple-50 p-2 rounded-xl">
+        <Dropdown>
+          <DropdownTrigger>
+            <Button
+              isIconOnly
+              variant="flat"
+              className="text-purple-800 bg-purple-100"
+            >
+              <RiEye2Line className="w-4 h-4" />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu
+            items={new Array([0, 1, 2])}
 
-            onClick={() => setPrescriptionFilter(0)}
-          >All</Chip>
-          <Chip 
-            className="ml-2 text-purple-800 bg-purple-100 cursor-pointer" size="lg"
-            onClick={() => setPrescriptionFilter(2)}
-          >Cancelled</Chip>
-          <Chip 
-            className="ml-2 text-purple-800 bg-purple-100 cursor-pointer" size="lg"
-            onClick={() => setPrescriptionFilter(1)}
-          >Filled</Chip>
-        </div>
+            selectionMode="single"
+            selectedKeys={[prescriptionFilter]}
+            defaultSelectedKeys={[0]}
+
+            onAction={(key) =>  setPrescriptionFilter(key as number)}
+
+            disallowEmptySelection
+            variant="flat"
+          >
+            <DropdownItem key={0} className="text-purple-800 bg-purple-100">
+              All
+            </DropdownItem>
+            <DropdownItem key={1} className="text-purple-800 bg-purple-100">
+              Filled  
+            </DropdownItem>
+            <DropdownItem key={2} className="text-purple-800 bg-purple-100">
+              Cancelled  
+            </DropdownItem>          
+          </DropdownMenu>
+        </Dropdown>
         <div className="flex flex-row items-center">
           <Button
             isIconOnly
@@ -212,7 +229,7 @@ export default () => {
                                 }}
 
                                 isDisabled={!(prescription.progress == "RECEIVED" || prescription.progress == "FILLED")}
-                                
+
                                 title="Fax received"
                                 subtitle="Your prescriptions were received and can now be viewed in your profile"
                               ></AccordionItem>
@@ -266,7 +283,7 @@ export default () => {
             </div>
             <div className="flex flex-row justify-start items-center gap-2 overflow-scroll mt-4">
               {prescription.pictures.map((picture: any) => (
-                <ImageZoom 
+                <ImageZoom
                   height="128"
                   width="128"
 
