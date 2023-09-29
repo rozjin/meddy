@@ -12,7 +12,7 @@ const Form = ({ children, className, action }:
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const res = await fetch(action as string, {
-      method: "POST",
+      method: e.currentTarget.method,
       body: formData,
       redirect: "manual"
     });

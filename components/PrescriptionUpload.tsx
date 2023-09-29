@@ -1,7 +1,7 @@
 import { Button, Card, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@nextui-org/react"
 import { FormEvent, MutableRefObject, useRef, useState } from "react"
 import { RiCameraLine, RiCamera2Line } from "react-icons/ri"
-import PrescriptionDrop from "@/meddy/components/PrescriptionDrop"
+import PrescriptionDrop from "@/meddy/components/ImageDrop"
 import toast from "react-hot-toast"
 
 export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () => void }) => {
@@ -66,15 +66,17 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
             </Card>
           </ModalBody>
           <ModalFooter className="flex flex-row items-center justify-center -ml-4">
-            <Button variant="flat" className="text-purple-800 bg-white ring-1 ring-purple-800" size="lg" type="submit">
-              <span>Continue</span>
-            </Button>
-            <Button
+            <Button 
               onPress={onCancel}
-              className="ml-2 bg-purple-700 text-purple-50"
+
+              variant="flat" 
+              className="text-purple-800 bg-white ring-1 ring-purple-800" 
               size="lg"
             >
               <span>Cancel</span>
+            </Button>
+            <Button className="ml-2 bg-purple-700 text-purple-50" size="lg" type="submit">
+              <span>Continue</span>
             </Button>
           </ModalFooter>
         </form>

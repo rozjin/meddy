@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction, useState } from "react"
 import { RiCameraLine, RiCloseLine } from "react-icons/ri"
 import { useDropzone } from 'react-dropzone'
 
-export default ({ page, files, setFiles } : { page: number, files: File[], setFiles: Dispatch<SetStateAction<File[]>> }) => {
-  const [ preview, setPreview ] = useState<string | null>(null);
+export default ({ previewURL, page, files, setFiles } : { previewURL?: string, page: number, files: File[], setFiles: Dispatch<SetStateAction<File[]>> }) => {
+  const [ preview, setPreview ] = useState<string | null>(previewURL || null);
   const [ drag, setDrag ] = useState(false)
   const [ filled, setFilled ] = useState(false)
   
@@ -46,7 +46,7 @@ export default ({ page, files, setFiles } : { page: number, files: File[], setFi
         key={page}
         className="flex flex-col items-center justify-center p-4 text-purple-700 w-40 h-40 bg-white"
       >
-        { filled ?
+        { filled || previewURL ?
           <>
             <img 
               width={160}

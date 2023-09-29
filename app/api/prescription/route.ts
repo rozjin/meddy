@@ -19,7 +19,7 @@ const MAX_FILE_SIZE = 16000000;
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
 
 const schema = zfd.formData({
-    op: zfd.text().refine(o => o == "upload" || o == "transfer"),
+    op: z.enum(["upload", "transfer"]),
     pharm: zfd.text().optional(),
 
     files: z
@@ -68,7 +68,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
                     const name = `${generate({ length: 12, capitalization: 'uppercase' })}.${mime.extension(file.type)}`
                     const path = `${friendly_id}-${name}`
 
-                    const url = await s3.send(new PutObjectCommand({
+                    await s3.send(new PutObjectCommand({
                         Bucket: s3Bucket,
                         Key: path,
                         Body: new Uint8Array(await file.arrayBuffer())

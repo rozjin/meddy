@@ -11,7 +11,11 @@ const nextConfig = {
     webpack: (config) => {
         config.experiments = { ...config.experiments, topLevelAwait: true }
         return config;
-    }
+    },
+
+    redirects: async() => [
+        { source: '/settings', destination: '/settings/user', permanent: true }
+    ]
 }
 
 module.exports = nextConfig

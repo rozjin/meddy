@@ -1,21 +1,35 @@
 'use client'
 
-import { Card, Link, User } from '@nextui-org/react'
+import { Card, Link, Spinner, User } from '@nextui-org/react'
 
 import { RiMedicineBottleLine, RiFileUploadLine, RiArrowLeftRightLine, RiSearchLine, RiFileCopyLine } from 'react-icons/ri'
 import { FaFilePrescription, FaPhoneAlt } from 'react-icons/fa'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
 
+import useSWR from 'swr'
+import { fetcher } from '@/meddy/hooks/fetcher'
+
 export default () => {
+  const { data: userData, isLoading: isUserLoading, error: userError } : { data: any, isLoading: boolean, error: any } = useSWR('/api/user', fetcher)
   const router = useRouter();
+  if (isUserLoading) return (
+    <Spinner
+      aria-label="Loading user information"
+
+      color="secondary"
+      className="m-auto"
+
+      size="lg"
+    />
+  )
 
   return (
     <>
       <h1 className="text-3xl font-semibold ">Home</h1>
       <div className="flex flex-row justify-between w-full mt-2 text-purple-800 font-medium">
         <span>You're up to date!</span>
-        <User name="Jane Doe" 
+        <User name={userData.user.name} 
           description="Patient"
           className="self-end"
         />
@@ -83,7 +97,7 @@ export default () => {
         </Card>
         <Card 
           isPressable
-          onPress={() => toast.loading("Phone number copied to your clipboard")}
+          onPress={() => toast.success("Phone number copied to your clipboard")}
 
           className="flex flex-col items-end justify-between p-4 mt-4 text-purple-800"
         >

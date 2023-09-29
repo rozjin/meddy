@@ -18,10 +18,13 @@ model User {
 
   name String?
   dob DateTime?
-
   gender String?
-
   phone_number String?
+
+  proof_id String[]
+  address String?
+
+  is_modifiable Boolean @default(true)
 
   patient Patient?
 }
@@ -33,15 +36,10 @@ model Patient {
   nhi String? @unique
 
   otc String[]
-
-  is_allergic Boolean @default(false)
   allergies Allergy[]
 
   medicines Medicine[]
   prescriptions Prescription[]
-
-  proof_id String[]
-  address String?
 
   user User @relation(fields: [user_id], references: [id])
   user_id Int @unique

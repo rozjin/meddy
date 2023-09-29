@@ -1,7 +1,7 @@
 import { Toaster, resolveValue } from "react-hot-toast"
 
 import { Card, Spinner } from "@nextui-org/react"
-import { RiCheckLine, RiAlertLine, RiInformationLine } from 'react-icons/ri'
+import { RiCheckLine, RiAlertLine, RiInformationLine, RiArrowTurnBackLine } from 'react-icons/ri'
 
 export default () => {
   return (
@@ -12,7 +12,7 @@ export default () => {
             'success': <RiCheckLine className="w-8 h-8 p-1 rounded-lg bg-purple-50 shadow-sm" />,
             'error': <RiAlertLine className="w-8 h-8 p-1 rounded-lg bg-purple-50 shadow-sm" />,
 
-            'loading': <Spinner size="sm" color="danger" className="p-1 bg-purple-50 rounded-xl shadow-sm" />,
+            'loading': <RiArrowTurnBackLine className="w-8 h-8 p-1 rounded-lg bg-purple-50 shadow-sm" />,
             
             'blank': <RiInformationLine className="w-8 h-8 p-1 rounded-lg bg-purple-50 shadow-sm" />,
             'custom': <RiInformationLine className="w-8 h-8 p-1 rounded-lg bg-purple-50 shadow-sm" />

@@ -2,48 +2,66 @@
 
 import SearchMedicines from "@/meddy/components/SearchMedicines";
 import { fetcher } from "@/meddy/hooks/fetcher";
-import { Accordion, AccordionItem, Button, Chip, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, useDisclosure } from "@nextui-org/react"
-import { RiEye2Line, RiSearchLine } from "react-icons/ri";
+import { Accordion, AccordionItem, Button, Chip, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Popover, PopoverContent, PopoverTrigger, Spinner, useDisclosure } from "@nextui-org/react"
+import { RiCheckLine, RiCloseLine, RiEye2Line, RiFilterLine, RiSearchLine } from "react-icons/ri";
 import useSWR from "swr";
 
 export default () => {
   const { isOpen: isSearchOpen, onOpenChange: onSearchChange, onOpen: onSearchOpen } = useDisclosure();
-
   const { data, isLoading, error } = useSWR('/api/medicine', fetcher)
+  if (isLoading) return (
+    <Spinner
+      aria-label="Loading user information"
+
+      color="secondary"
+      className="m-auto"
+
+      size="lg"
+    />
+  )
 
   return (
     <>
       <div className="flex flex-row items-center justify-between w-full mb-1 -mt-1 bg-purple-50 p-2 rounded-xl">
-      <Dropdown>
-          <DropdownTrigger>
+        <Popover
+          aria-label="Choose View"
+          placement="bottom"
+        >
+          <PopoverTrigger>
             <Button
               isIconOnly
               variant="flat"
-              className="text-purple-800 bg-purple-100"
+              className=" text-purple-800 bg-purple-100"
             >
-              <RiEye2Line className="w-4 h-4" />
+              <RiFilterLine className="w-6 h-6" />
             </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            items={new Array([0, 1, 2])}
-
-            selectionMode="single"
-            defaultSelectedKeys={[0]}
-
-            disallowEmptySelection
-            variant="flat"
+          </PopoverTrigger>
+          <PopoverContent
+            className="px-1 gap-1 flex flex-col items-center justify-center bg-purple-50"
           >
-            <DropdownItem key={0} className="text-purple-800 bg-purple-100">
-              All
-            </DropdownItem>
-            <DropdownItem key={1} className="text-purple-800 bg-purple-100">
-              Filled  
-            </DropdownItem>
-            <DropdownItem key={2} className="text-purple-800 bg-purple-100">
-              Cancelled  
-            </DropdownItem>          
-          </DropdownMenu>
-        </Dropdown>
+            <Button            
+              isIconOnly
+              variant="flat"
+              className=" text-purple-800 bg-purple-100"
+            >
+              <RiEye2Line className="w-6 h-6" />
+            </Button>
+            <Button
+              isIconOnly
+              variant="flat"
+              className=" text-purple-800 bg-purple-100"
+            >
+              <RiCheckLine className="w-6 h-6" />
+            </Button>
+            <Button
+              isIconOnly
+              variant="flat"
+              className=" text-purple-800 bg-purple-100"
+            >
+              <RiCloseLine className="w-6 h-6" />
+            </Button>
+          </PopoverContent>
+        </Popover>
         <Button
           isIconOnly 
           variant="flat" 

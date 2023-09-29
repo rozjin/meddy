@@ -89,28 +89,28 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
         errorMessage={error}
       />
       {open && (
-      <div
-        aria-label="Medicines List"
-        className="flex flex-col items-center mt-2 bg-white max-w-[224px] rounded-lg max-h-52 border"
-      >
-        <ScrollShadow>
-          {matches.map(item => (
-            <>
-              <div
-                key={item.item.id}
-                aria-label={item.item.name}
+        <div
+          aria-label="Medicines List"
+          className="flex flex-col items-center mt-2 bg-white max-w-[224px] rounded-lg max-h-52 border"
+        >
+          <ScrollShadow>
+            {matches.map(item => (
+              <>
+                <div
+                  key={item.item.id}
+                  aria-label={item.item.name}
 
-                className="flex flex-row items-center justify-start text-purple-700 m-1 p-2 text-md cursor-pointer"
+                  className="flex flex-row items-center justify-start text-purple-700 m-1 p-2 text-md cursor-pointer"
 
-                onClick={onPress(item.item.name, item.item.chem)}
-              >
-                <span>{item.item.name}</span>
-              </div>
-              <Divider orientation="horizontal" />
-            </>
-          ))}
-        </ScrollShadow>
-      </div>
+                  onClick={onPress(item.item.name, item.item.chem)}
+                >
+                  <span>{item.item.name}</span>
+                </div>
+                <Divider orientation="horizontal" />
+              </>
+            ))}
+          </ScrollShadow>
+        </div>
       )}
     </div>
   )

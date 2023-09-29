@@ -8,7 +8,7 @@ export default ({ children } : { children: React.ReactNode }) => {
   const router = useRouter();
   const pathname = usePathname();
 
-  const path = pathname == '/' ? '/' as Key : pathname.substring(1) as Key;
+  const path = pathname == '/' ? '/' as Key : pathname.lastIndexOf('/') - pathname.indexOf('/') ? pathname.substring(1, pathname.lastIndexOf('/')) : pathname.substring(1);
   return (
     <>
       <Tabs 
