@@ -18,7 +18,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
   })
 
   const medicines = async () => {
-    const res = await fetch('/api/find')
+    const res = await fetch('/api/drug')
     const json = await res.json()
     const data: { id: string, name: string }[] = json.data;
 

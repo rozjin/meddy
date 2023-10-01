@@ -81,7 +81,7 @@ export default () => {
       <div className="grid w-full grid-cols-1 sm:grid-cols-2 grid-rows-2 gap-4 mt-4">
       <Card 
           isPressable
-          onPress={() => toast("Fax number copied to your clipboard")}
+          onPress={() => toast.success("Fax number copied to your clipboard")}
 
           className="flex flex-col items-start justify-between p-4 mt-4 text-purple-800"
         >

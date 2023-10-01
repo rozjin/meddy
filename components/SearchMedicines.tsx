@@ -42,7 +42,7 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
     formData.append("id", medId)
 
     const res = await fetch(e.currentTarget.action, {
-      method: "POST",
+      method: e.currentTarget.method,
       body: formData,
 
       redirect: "manual"
@@ -61,7 +61,7 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
             <h3 className="text-xl">Search medicines</h3>
           </div>
         </ModalHeader>
-        <form className="flex flex-col items-center justify-between mx-auto ring-1 ring-black bg-white rounded-lg pt-4" method="post" onSubmit={onSubmit} action="/api/find">
+        <form className="flex flex-col items-center justify-between mx-auto ring-1 ring-black bg-white rounded-lg pt-4" method="post" onSubmit={onSubmit} action="/api/drug">
           <ModalBody className="flex flex-col items-center justify-center">
             <Autocomplete
               isRequired

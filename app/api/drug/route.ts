@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { zfd } from "zod-form-data";
 
-import pharmac from "@/meddy/app/api/find/pharmac.json"
+import drug from "@/meddy/app/api/drug/drug.json"
 
 type medicine = {
     id: string,
@@ -24,7 +24,7 @@ type medicine = {
     }[]
 };
 
-const medicines: medicine[] = pharmac as medicine[]
+const medicines: medicine[] = drug as medicine[]
 const names: { id: string, name: string }[] = medicines.flatMap(med => {
     return med.formulations.map(form => ({ id: form.id, chem: med.id, name: `${med.name} - ${form.name}, ${form.unit} ${form.quantity}` }))
 })

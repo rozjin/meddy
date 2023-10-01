@@ -95,6 +95,7 @@ model Prescription {
 
   medicines Medicine[]
   pictures String[]
+  other_pharmacy String?
 
   patient Patient @relation(fields: [patient_id], references: [id])
   patient_id Int

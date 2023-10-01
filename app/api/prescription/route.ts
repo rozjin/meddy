@@ -20,12 +20,14 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png", "image/web
 
 const schema = zfd.formData({
     op: z.enum(["upload", "transfer"]),
-    pharm: zfd.text().optional(),
+    
+    name: zfd.text().optional(),
+    address: zfd.text().optional(),
 
     files: z
         .any()
 
-        .refine((files) => files?.length >= 1, "Image is required.")
+        .refine((files) => files?.length >= 1 && files?.length <= 5, "Image is required.")
         .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
         .refine(
             (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
@@ -48,11 +50,13 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     const userId = parseInt(session.user.id)
 
     const data = schema.parse(await req.formData());
-    const { op, pharm, files } = data;
+    const { op } = data;
 
     try {
         switch (op) {
             case "upload": {
+                const { files } = data
+
                 if (files == undefined) {
                     return NextResponse.json(
                         { message: "Please attach an image to proceed" },
@@ -97,13 +101,34 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
                 return NextResponse.json(
                     { message: "Success! your prescription has been uploaded. A pharmacist will process it shortly" }
                 )
-
-                break;
             }
 
             case "transfer": {
+                const { name, address } = data
 
-                break;
+                await prisma.prescription.create({
+                    data: {
+                        friendly_id: generate({
+                            length: 12,
+                            capitalization: 'uppercase'
+                        }),
+
+                        method: PrescriptionMethod.EPS,
+                        progress: PrescriptionProgress.REQUESTED,
+
+                        other_pharmacy: `${name} # ${address}`,
+
+                        patient: {
+                            connect: {
+                                user_id: userId
+                            }
+                        }
+                    }
+                })
+
+                return NextResponse.json(
+                    { message: "Success! your transfer request has been filed. A pharmacist will process it shortly" }
+                )
             }
         }
     } catch (err) {

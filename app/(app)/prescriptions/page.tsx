@@ -1,7 +1,7 @@
 'use client'
 
 import PrescriptionUpload from "@/meddy/components/PrescriptionUpload";
-import TransferRefill from "@/meddy/components/TransferRefill";
+import PrescriptionTransfer from "@/meddy/components/PrescriptionTransfer";
 import { fetcher } from "@/meddy/hooks/fetcher";
 import { Accordion, AccordionItem, Button, Chip, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Image, Listbox, ListboxItem, Modal, ModalBody, ModalContent, Popover, PopoverContent, PopoverTrigger, Select, SelectItem, Spinner, toggle, useDisclosure } from "@nextui-org/react"
 import { RiFileUploadLine, RiArrowLeftRightLine, RiSearch2Line, RiImage2Line, RiEye2Line, RiCloseLine, RiCheckLine, RiFilterLine } from 'react-icons/ri'
@@ -98,7 +98,7 @@ export default () => {
             onPress={onTransferOpen}
           >
             <RiArrowLeftRightLine className="w-6 h-6" />
-            <TransferRefill isOpen={isTransferOpen} onOpenChange={onTransferChange} />
+            <PrescriptionTransfer isOpen={isTransferOpen} onOpenChange={onTransferChange} />
           </Button>
           <Button
             isIconOnly

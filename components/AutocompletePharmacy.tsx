@@ -3,9 +3,9 @@ import { ChangeEvent, useEffect, useState, Key } from "react"
 
 import Fuse from 'fuse.js'
 
-export default ({ isRequired, isClearable, isEditable = true, name, type, placeholder, error, validate, setMedId }: {
+export default ({ isRequired, isClearable, isEditable = true, name, type, placeholder, error, validate, setPharmacyId }: {
   isRequired?: boolean, isClearable?: boolean, isEditable?: boolean, name?: string, type?: 'text' | 'search' | 'url' | 'tel' | 'email' | 'password'
-  placeholder?: string, error?: string, validate?: (value: string) => boolean, setMedId: (value: string) => void
+  placeholder?: string, error?: string, validate?: (value: string) => boolean, setPharmacyId: (value: string) => void
 }) => {
   const [ list, setList ] = useState<{ id: string, name: string }[]>([])
   const matcher = new Fuse(list, {
@@ -18,7 +18,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
   })
 
   const medicines = async () => {
-    const res = await fetch('/api/find')
+    const res = await fetch('/api/pharmacy')
     const json = await res.json()
     const data: { id: string, name: string }[] = json.data;
 
@@ -34,7 +34,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
     fetch()
   }, [])
 
-  const [ matches, setMatches ] = useState<Fuse.FuseResult<{ id: string, chem: string, name: string }>[]>([])
+  const [ matches, setMatches ] = useState<Fuse.FuseResult<{ id: string, name: string }>[]>([])
 
   const [ open, setOpen ] = useState(false);
   const [ isInvalid, setInvalid ] = useState(false);
@@ -42,7 +42,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
 
   const onPress = (key: Key, id: string) => () => {
     setValue(key as string)
-    setMedId(id)
+    setPharmacyId(id)
     setOpen(false)
   }
 
@@ -90,7 +90,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
       />
       {open && (
       <div
-        aria-label="Medicines List"
+        aria-label="Pharmacies List"
         className="flex flex-col items-center mt-2 max-w-[224px] rounded-lg max-h-52 bg-purple-50 ring-purple-800 ring-2 p-1"
       >
         <ScrollShadow>
@@ -101,7 +101,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
 
               className="flex flex-row items-center mb-2 justify-start text-purple-700 shadow-lg rounded-lg h-12 hover:bg-purple-50 p-2 text-sm cursor-pointer"
 
-              onClick={onPress(item.item.name, item.item.chem)}
+              onClick={onPress(item.item.name, item.item.id)}
             >
               <span>{item.item.name}</span>
             </div>
