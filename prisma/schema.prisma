@@ -62,18 +62,17 @@ model Medicine {
 
   name String
 
-  is_renew Boolean @default(false)
+  is_packs Boolean
+  is_automatic Boolean @default(false)
+
+  cur_renew Int @default(1)
+  num_renew Int @default(1)
+  next_renewal DateTime
+
   prescriber String
 
-  quantity Int
-  filled Int
   note String?
-
   unit String
-
-  is_packs Boolean @default(false)
-
-  next_renewal DateTime
 
   patient Patient? @relation(fields: [patient_id], references: [id])
   patient_id Int
@@ -82,6 +81,18 @@ model Medicine {
   prescription_id Int
 
   orders MedicineOrder[]
+  repeats MedicineRepeat[]
+}
+
+model MedicineRepeat {
+  id Int @id @default(autoincrement())
+  friendly_id String @unique
+
+  created DateTime @default(now())
+  cur_renew Int
+
+  medicine Medicine @relation(fields: [medicine_id], references: [id])
+  medicine_id Int
 }
 
 model Prescription {
@@ -106,7 +117,7 @@ model MedicineOrder {
 
   created DateTime @default(now())
 
-  filled Int
+  cur_renew Int
 
   medicine Medicine @relation(fields: [medicine_id], references: [id])
   medicine_id Int

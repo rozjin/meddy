@@ -50,7 +50,7 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
                       >
                         <div className="flex flex-col items-start justify-center">
                           <span className="font-semibold">{medicine.name} {medicine.unit}</span>
-                          <span className="text-purple-400">Quantity left: {medicine.quantity - medicine.filled} unit{"(s)"}</span>
+                          <span className="text-purple-400">Repeats left: {medicine.num_renew - medicine.cur_renew}</span>
                         </div>
                       </ListboxItem>
                     ))}

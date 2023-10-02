@@ -18,11 +18,10 @@ const Form = ({ children, className, action }:
     });
     
     try {
+      const json = await res.json()
       if (!res.ok) {
-        const json = await res.json()
         if (json.message) toast.error(json.message)
       } else {
-        const json = await res.json()
         if (json.message) toast.success(json.message)    
       }
     } catch (err) {
@@ -36,7 +35,7 @@ const Form = ({ children, className, action }:
     <form 
       action={action}
 
-      method="post"
+      method="POST"
       onSubmit={onSubmit}
 
       className={className}

@@ -1,14 +1,41 @@
 'use client'
 
+import Form from "@/meddy/components/Form";
 import SearchMedicines from "@/meddy/components/SearchMedicines";
 import { fetcher } from "@/meddy/hooks/fetcher";
-import { Accordion, AccordionItem, Button, Chip, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Popover, PopoverContent, PopoverTrigger, Spinner, useDisclosure } from "@nextui-org/react"
-import { RiCheckLine, RiCloseLine, RiEye2Line, RiFilterLine, RiSearchLine } from "react-icons/ri";
+import { Accordion, AccordionItem, Button, Checkbox, Chip, Divider, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Popover, PopoverContent, PopoverTrigger, Spinner, useDisclosure } from "@nextui-org/react"
+import { FormEvent } from "react";
+import toast from "react-hot-toast";
+import { RiArrowTurnBackLine, RiCheckLine, RiCloseLine, RiEye2Line, RiFilterLine, RiSearchLine } from "react-icons/ri";
 import useSWR from "swr";
 
 export default () => {
   const { isOpen: isSearchOpen, onOpenChange: onSearchChange, onOpen: onSearchOpen } = useDisclosure();
-  const { data, isLoading, error } = useSWR('/api/medicine', fetcher)
+  const { data, mutate, isLoading, error } = useSWR('/api/medicine', fetcher)
+
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const res = await fetch(e.currentTarget.action, {
+      method: e.currentTarget.method,
+      body: formData,
+      redirect: "manual"
+    });
+    
+    try {
+      const json = await res.json()
+      if (!res.ok) {
+        if (json.message) toast.error(json.message)
+      } else {
+        if (json.message) toast.success(json.message)    
+      }
+    } catch (err) {
+      console.log(`Form failed to parse JSON: ${err}`)
+    }
+
+    mutate()
+  }
+
   if (isLoading) return (
     <Spinner
       aria-label="Loading user information"
@@ -88,8 +115,40 @@ export default () => {
             key={medicine.friendly_id}
           >
             { medicine.note &&
-              <div className="flex flex-row justify-start items-center mb-4">
+              <div className="flex flex-row justify-between items-center mb-4">
                 <span className="text-purple-800 p-2 bg-purple-100 rounded-lg">{medicine.note}</span>
+                <div className="flex flex-row justify-between items-center">
+                  <form action="/api/medicine" method="POST" onSubmit={onSubmit}>
+                    <input type="hidden" name="id" value={medicine.friendly_id} />
+                    <input type="hidden" name="op" value="automatic" />
+                    <button type="submit">
+                      <Checkbox
+                        defaultSelected={medicine.is_automatic}
+
+                        color="secondary"
+                        classNames={{
+                          base: "mr-2 bg-purple-100 rounded-lg",
+                          label: "text-purple-800"
+                        }}
+                      >
+                        Automatic Repeat
+                      </Checkbox>
+                    </button>
+                  </form>
+                  <Form action="/api/medicine">
+                    <input type="hidden" name="id" value={medicine.friendly_id} />
+                    <input type="hidden" name="op" value="repeat" />
+                    <Button
+                      isIconOnly
+                      variant="flat"
+                      className="text-purple-800 bg-purple-100"
+
+                      type="submit"
+                    >
+                      <RiArrowTurnBackLine className="w-6 h-6" />
+                    </Button>
+                  </Form>
+                </div>
               </div>
             }
             <div className="flex flex-row justify-between items-center mx-1">
@@ -98,23 +157,13 @@ export default () => {
             </div>
             <Divider orientation="horizontal" className="my-2" />
             <div className="flex flex-row justify-between items-center mx-1">
-              <span>Automatically refill?</span>
-              <span>{medicine.is_renew ? "Yes" : "No"}</span>
+              <span>Repeats</span>
+              <span>{medicine.cur_renew} of {medicine.num_renew}</span>
             </div>
             <Divider orientation="horizontal" className="my-2" />
             <div className="flex flex-row justify-between items-center mx-1">
               <span>Prescribing Doctor</span>
               <span>{medicine.prescriber}</span>
-            </div>
-            <Divider orientation="horizontal" className="my-2" />
-            <div className="flex flex-row justify-between items-center mx-1">
-              <span>Quantity left</span>
-              <span>{medicine.quantity - medicine.filled} unit{"(s)"}</span>
-            </div>
-            <Divider orientation="horizontal" className="my-2" />
-            <div className="flex flex-row justify-between items-center mx-1">
-              <span>Quantity filled</span>
-              <span>{medicine.filled} unit{"(s)"}</span>
             </div>
             <Divider orientation="horizontal" className="my-2" />
             <div className="flex flex-row justify-between items-center mx-1">

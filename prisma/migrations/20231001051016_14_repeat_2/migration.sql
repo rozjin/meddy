@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "Medicine" ADD COLUMN     "cur_renew" INTEGER NOT NULL DEFAULT 0,
+ALTER COLUMN "num_renew" DROP DEFAULT;
