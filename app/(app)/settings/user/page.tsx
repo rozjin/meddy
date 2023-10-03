@@ -53,7 +53,10 @@ export default () => {
             isRequired
             isClearable
 
-            defaultValue={new Date(userData.user.dob).toLocaleDateString("en-NZ")}
+            defaultValue={new Date(userData.user.dob).toLocaleDateString("en-NZ", {
+              timeZone: "Pacific/Auckland",
+              timeZoneName: "short"
+            })}
             name="dob"
             type="text"
             placeholder="12/12/1993"
