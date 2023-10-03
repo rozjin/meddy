@@ -228,6 +228,8 @@ export const GET = async (req: NextRequest) => {
                 address: true,
                 proof_id: true,
 
+                is_modifiable: true,
+
                 patient: {
                     select: {
                         nhi: true,

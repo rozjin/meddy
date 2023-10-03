@@ -3,8 +3,8 @@ import { ChangeEvent, useRef, useState, Key } from "react"
 
 import usePlacesService from "react-google-autocomplete/lib/usePlacesAutocompleteService";
 
-export default ({ isRequired, isClearable, isEditable = true, defaultValue, name, type, placeholder, error }: {
-  isRequired?: boolean, isClearable?: boolean, isEditable?: boolean, defaultValue?: string, name?: string, type?: 'text' | 'search' | 'url' | 'tel' | 'email' | 'password'
+export default ({ isRequired, isClearable, isDisabled, defaultValue, name, type, placeholder, error }: {
+  isRequired?: boolean, isClearable?: boolean, isDisabled?: boolean, defaultValue?: string, name?: string, type?: 'text' | 'search' | 'url' | 'tel' | 'email' | 'password'
   placeholder?: string, error?: string }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const { placesService, placePredictions, getPlacePredictions } = usePlacesService({
@@ -41,7 +41,7 @@ export default ({ isRequired, isClearable, isEditable = true, defaultValue, name
       <Input 
         isRequired={isRequired}
         isClearable={isClearable}
-        isDisabled={!isEditable}
+        isDisabled={isDisabled}
 
         name={name}
         type={type}

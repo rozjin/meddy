@@ -162,7 +162,7 @@ export default () => {
         isClearable
 
         defaultValue={userData.user.address}
-        isEditable={userData.user.is_modifiable}
+        isDisabled={!userData.user.is_modifiable}
 
         name="address"
         type="text"
@@ -170,7 +170,7 @@ export default () => {
 
         error={"Please enter your address"}
       />
-      <Button className="text-purple-50 bg-purple-800" type="submit">
+      <Button isDisabled={!userData.user.is_modifiable} className="text-purple-50 bg-purple-800" type="submit">
         <span>Save</span>
       </Button>
     </Form>
