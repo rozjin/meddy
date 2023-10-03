@@ -162,7 +162,7 @@ export default () => {
         isClearable
 
         defaultValue={userData.user.address}
-        isEditable={!userData.user.is_modifiable}
+        isEditable={userData.user.is_modifiable}
 
         name="address"
         type="text"
