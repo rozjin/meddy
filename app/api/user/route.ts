@@ -26,7 +26,7 @@ const schema = zfd.formData({
         .transform(date => {
             const parts = date.split('/')
             return new Date(
-                parseInt(parts[2], 10),
+                parseInt(parts[2], 10) + 1,
                 parseInt(parts[1], 10) - 1,
                 parseInt(parts[0], 10)
             );
