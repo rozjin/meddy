@@ -30,7 +30,7 @@ type medicine = {
 };
 
 export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () => void }) => {
-  const [ med, setMed ] = useState<medicine>();
+  const [ med, setMed ] = useState<medicine | null>();
   const [ medId, setMedId ] = useState("");
 
   const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -51,12 +51,12 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
   }
 
   const onClose = () => {
-    setMed()
+    setMed(null)
     onOpenChange()
   }
 
   return (
-    <Modal isOpen={isOpen} onClose={} className="flex flex-col items-start justify-between p-4 text-purple-800 bg-purple-50 ring-purple-800 ring-2">
+    <Modal isOpen={isOpen} onClose={onClose} className="flex flex-col items-start justify-between p-4 text-purple-800 bg-purple-50 ring-purple-800 ring-2">
       <ModalContent>
         <ModalHeader className="flex flex-col items-center justify-between mx-auto">
           <div className="flex flex-row items-center justify-between">
