@@ -73,7 +73,7 @@ export default ({ isRequired, isClearable, isEditable = true, defaultValue, name
             width: `${inputRef.current?.offsetWidth}px`
           }}
         >
-          <ScrollShadow>
+          <ScrollShadow className="w-full">
             {placePredictions.map(item => (
               <div
                 key={item.place_id}
