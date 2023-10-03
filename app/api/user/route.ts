@@ -79,6 +79,8 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
             phone_number: true,
             address: true,
 
+            is_modifiable: true,
+
             patient: {
                 select: {
                     nhi: true,
@@ -95,6 +97,12 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     try {
         switch (op) {
             case "basic": {
+                if (!user?.is_modifiable) {
+                    return NextResponse.json(
+                        { message: "Your account has been finalized. Please contact us to change your information" },
+                    { status: 400 })
+                }
+
                 const { name, dob, gender, nhi, phone_number, address } = data;
 
                 const isEmptyOrElse = <T>(original: T | undefined, replacement: T | undefined) => replacement ? replacement : original;

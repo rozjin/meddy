@@ -30,6 +30,8 @@ export default () => {
             isClearable
 
             defaultValue={userData.user.name}
+            isDisabled={!userData.user.is_modifiable}
+
             name="name"
             type="text"
             placeholder="Joe Froggs"
@@ -60,6 +62,8 @@ export default () => {
 
               timeZone: "Pacific/Auckland",
             })}
+            isDisabled={!userData.user.is_modifiable}
+
             name="dob"
             type="text"
             placeholder="12/12/1993"
@@ -85,6 +89,8 @@ export default () => {
             isClearable
 
             defaultValue={userData.user.phone_number}
+            isDisabled={!userData.user.is_modifiable}
+
             name="phone_number"
             type="tel"
 
@@ -110,6 +116,8 @@ export default () => {
             isClearable
 
             defaultValue={userData.user.gender}
+            isDisabled={!userData.user.is_modifiable}
+
             name="gender"
             type="text"
 
@@ -131,6 +139,8 @@ export default () => {
         isClearable
 
         defaultValue={userData.user.patient.nhi}
+        isDisabled={!userData.user.is_modifiable}
+
         name="nhi"
         type="text"
 
@@ -152,6 +162,8 @@ export default () => {
         isClearable
 
         defaultValue={userData.user.address}
+        isEditable={!userData.user.is_modifiable}
+
         name="address"
         type="text"
         placeholder="1 Museum Street, Wellington"
