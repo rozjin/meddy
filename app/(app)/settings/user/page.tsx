@@ -54,8 +54,11 @@ export default () => {
             isClearable
 
             defaultValue={new Date(userData.user.dob).toLocaleDateString("en-NZ", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+
               timeZone: "Pacific/Auckland",
-              timeZoneName: "short"
             })}
             name="dob"
             type="text"
