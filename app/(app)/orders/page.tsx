@@ -80,31 +80,43 @@ export default () => {
 
             title={order.medicines.map((medicine: any) => medicine.name).join(", ")}
             subtitle={`Order ID: ${order.friendly_id}`}
+
             key={order.friendly_id}
           >
-            <div className="flex flex-row justify-between items-center">
-              <span className="text-purple-800 bg-purple-100 p-2 rounded-lg">
-                {{
-                  "PREPARING": "Your order is being prepared",
-                  "CONSULT": "Your pharmacist has contacted you for a consult",
+            <div className="flex flex-col">
+              <div className="flex flex-row justify-between items-center">
+                <span className="text-purple-800 bg-purple-100 p-2 rounded-lg">
+                  {{
+                    "PREPARING": "Your order is being prepared",
+                    "CONSULT": "Your pharmacist has contacted you for a consult",
 
-                  "SHIPPED": "Your order is being shipped",
-                  "TRANSIT": "Your order is in transit. It will be with you shortly",
+                    "SHIPPED": "Your order is being shipped",
+                    "TRANSIT": "Your order is in transit. It will be with you shortly",
 
-                  "DELIVERED": "Your order has been delivered. Thank you for using Meddy",
+                    "DELIVERED": "Your order has been delivered. Thank you for using Meddy",
 
-                  "CANCELLED": "Your order was cancelled"
-                }[order.progress as string]}
-              </span>
-              <Button
-                isIconOnly
-                variant="flat"
-                className="text-purple-800 bg-purple-100"
+                    "CANCELLED": "Your order was cancelled"
+                  }[order.progress as string]}
+                </span>
+                <Button
+                  isIconOnly
+                  variant="flat"
+                  className="text-purple-800 bg-purple-100"
 
-                onPress={toggleOrderOpen(idx)}
-              >
-                <RiSearch2Line className="w-6 h-6" />
-              </Button>
+                  onPress={toggleOrderOpen(idx)}
+                >
+                  <RiSearch2Line className="w-6 h-6" />
+                </Button>
+              </div>
+              <Divider orientation="horizontal" className="mb-2 mt-4" />
+              <div className="flex flex-row justify-between items-center mx-1">
+                <span>Created On</span>
+                <span>{new Date(order.created).toLocaleDateString("en-NZ", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric"
+                })}</span>
+              </div>
               <Modal isOpen={isOrderOpen(idx)} onClose={toggleOrderOpen(idx)} className="flex flex-col items-start justify-between p-4 text-purple-800 bg-purple-50 ring-purple-800 ring-2">
                 <ModalContent>
                   <ModalBody>
