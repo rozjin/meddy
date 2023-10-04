@@ -1,0 +1,5 @@
+-- AlterEnum
+ALTER TYPE "OrderProgress" ADD VALUE 'CANCELLED';
+
+-- AlterTable
+ALTER TABLE "Order" ADD COLUMN     "deliver_by" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP;

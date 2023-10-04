@@ -40,6 +40,7 @@ model Patient {
 
   medicines Medicine[]
   prescriptions Prescription[]
+  orders Order[]
 
   user User @relation(fields: [user_id], references: [id])
   user_id Int @unique
@@ -80,7 +81,7 @@ model Medicine {
   prescription Prescription? @relation(fields: [prescription_id], references: [id])
   prescription_id Int
 
-  orders MedicineOrder[]
+  orders Order[]
   repeats MedicineRepeat[]
 }
 
@@ -90,6 +91,8 @@ model MedicineRepeat {
 
   created DateTime @default(now())
   cur_renew Int
+
+  approved Boolean @default(false)
 
   medicine Medicine @relation(fields: [medicine_id], references: [id])
   medicine_id Int
@@ -112,35 +115,24 @@ model Prescription {
   patient_id Int
 }
 
-model MedicineOrder {
-  id Int @id @default(autoincrement())
-
-  created DateTime @default(now())
-
-  cur_renew Int
-
-  medicine Medicine @relation(fields: [medicine_id], references: [id])
-  medicine_id Int
-
-  order Order @relation(fields: [order_id], references: [id])
-  order_id Int
-}
-
 model Order {
   id Int @id @default(autoincrement())
   friendly_id String @unique 
 
   created DateTime @default(now())
   delivered DateTime
+  deliver_by DateTime @default(now())
 
   ask_consult Boolean @default(false)
   is_consult Boolean @default(false)
 
   progress OrderProgress
-
   address String
 
-  medicines MedicineOrder[]
+  medicines Medicine[]
+
+  patient Patient @relation(fields: [patient_id], references: [id])
+  patient_id Int
 }
 
 enum OrderProgress {
@@ -151,6 +143,7 @@ enum OrderProgress {
   TRANSIT
 
   DELIVERED
+  CANCELLED
 }
 
 enum PrescriptionMethod {

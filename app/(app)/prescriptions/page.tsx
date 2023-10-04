@@ -16,18 +16,20 @@ export default () => {
   const { isOpen: isUploadOpen, onOpenChange: onUploadChange, onOpen: onUploadOpen } = useDisclosure();
   const { isOpen: isTransferOpen, onOpenChange: onTransferChange, onOpen: onTransferOpen } = useDisclosure();
   const [ isPrescriptionsOpen, setPrescriptionsOpen ] = useState<boolean[]>([])
-  const isPrescriptionOpen = (idx: number) => isPrescriptionsOpen[idx];
+  const isPrescriptionOpen = (idx: number) => isPrescriptionsOpen.length > idx ? isPrescriptionsOpen[idx] : false;
   const togglePrescriptionOpen = (idx: number) => () => setPrescriptionsOpen(prev => {
     const newPrescriptionsOpen = [...prev];
     newPrescriptionsOpen[idx] = !newPrescriptionsOpen[idx]
 
     return newPrescriptionsOpen
   })
+  
   const [ prescriptionFilter, setPrescriptionFilter ] = useState(0);
 
-  const { data, isLoading, error } = useSWR('/api/prescription', fetcher)
+  const { data, isLoading, error }:
+    { data: any, isLoading: boolean, error: any } = useSWR('/api/prescription', fetcher)
   useEffect(() => {
-    if (data) setPrescriptionsOpen((data as any).prescriptions.map((_: any) => false))
+    if (data) setPrescriptionsOpen(data.prescriptions.map((_: any) => false))
   }, [data])
 
   if (isLoading) return (
@@ -114,7 +116,7 @@ export default () => {
       </div>
       <Divider orientation="horizontal" className="my-2" />
       <Accordion>
-        {!isLoading && (data as any).prescriptions.filter((prescription: any) => ({
+        {!isLoading && data.prescriptions.filter((prescription: any) => ({
             0: true,
             1: prescription.progress == "FILLED",
             2: prescription.progress == "CANCELLED"
@@ -128,8 +130,6 @@ export default () => {
               title: "text-purple-700",
               subtitle: "text-purple-400",
             }}
-
-            hideIndicator
 
             key={prescription.friendly_id}
           >
