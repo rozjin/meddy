@@ -5,10 +5,19 @@ import { Key, useState } from "react"
 import { fetcher } from "@/meddy/hooks/fetcher"
 import useSWR from "swr"
 import toast from "react-hot-toast"
+import ReactDatePicker from "react-datepicker"
+
+import "react-datepicker/dist/react-datepicker.css";
 
 export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () => void }) => {
   const [ selectedTab, setSelectedTab ] = useState<"select" | "order">("select");
   const [ selectedMedicines, setSelectedMedicines ] = useState<string[]>([]);
+  
+  const today = new Date()
+  const minDeliverBy = new Date(today.setDate(today.getDate() + 3))
+
+  const [ deliverBy, setDeliverBy ] = useState<Date>(minDeliverBy);
+
   const [ orderProgress, setOrderProgress ] = useState(50)
 
   const onProgress = async () => {
@@ -27,6 +36,8 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
 
       case "order": {
         const data = new FormData()
+
+        data.append("deliverBy", deliverBy.toISOString())
         selectedMedicines.map((selected, i) => data.append(`ids[${i}]`, selected))
 
         const res = await fetch("/api/order", {
@@ -119,6 +130,8 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
                       <ListboxItem
                         key={medicine.friendly_id}
                         textValue={medicine.name}
+
+                        isReadOnly={medicine.cur_renew - medicine.num_renew == 0}
                       >
                         <div className="flex flex-col items-start justify-center">
                           <span className="font-semibold">{medicine.name} {medicine.unit}</span>
@@ -152,6 +165,8 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
                       <ListboxItem
                         key={medicine.friendly_id}
                         textValue={medicine.name}
+
+                        isReadOnly={medicine.cur_renew - medicine.num_renew == 0}                        
                       >
                         <div className="flex flex-col items-start justify-center">
                           <span className="font-semibold">{medicine.name} {medicine.unit}</span>
@@ -168,8 +183,14 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
                       <span className="text-purple-400">{userData.user.address}</span>
                     </span>
                     <span className="text-purple-800 flex flex-row justify-start items-center">
-                      <span className="mr-2">Delivered by:</span>
-                      <span className="text-purple-400">XYZ</span>
+                      <span className="mr-2">Deliver by:</span>
+                      <ReactDatePicker 
+                        allowSameDay={false}
+                        minDate={minDeliverBy}
+
+                        selected={deliverBy} 
+                        onChange={(date) => setDeliverBy(date!)} 
+                      />
                     </span>
                   </div>
                   )}

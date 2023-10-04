@@ -11,7 +11,8 @@ import { z } from "zod";
 import { OrderProgress } from "@prisma/client";
 
 const schema = zfd.formData({
-    ids: zfd.text().array()
+    ids: zfd.text().array(),
+    deliverBy: zfd.text()
 })
 
 export const POST = async (req: NextRequest, res: NextResponse) => {
@@ -34,7 +35,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
     })
 
     const data = schema.parse(await req.formData());
-    const { ids } = data
+    const { ids, deliverBy } = data
 
     try {
         const today = new Date()
@@ -46,7 +47,7 @@ export const POST = async (req: NextRequest, res: NextResponse) => {
                 }),
 
                 delivered: today,
-                deliver_by: new Date(today.getDate() + 1),
+                deliver_by: new Date(deliverBy),
                 progress: OrderProgress.PREPARING,
 
                 address: user!.address!,
