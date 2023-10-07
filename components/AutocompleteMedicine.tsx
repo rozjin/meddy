@@ -61,7 +61,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
   }
   
   return (
-    <div className="flex flex-col items-center justify-start"> 
+    <div className="flex flex-col items-center w-full justify-start"> 
       <Input 
         isRequired={isRequired}
         isClearable={isClearable}
@@ -78,7 +78,8 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
 
         classNames={{
           input: [
-            "text-purple-800"
+            "text-purple-800",
+            "w-full"
           ],
 
           innerWrapper: "bg-transparent",
@@ -91,7 +92,7 @@ export default ({ isRequired, isClearable, isEditable = true, name, type, placeh
       {open && (
         <div
           aria-label="Medicines List"
-          className="flex flex-col items-center mt-2 bg-white max-w-[224px] rounded-lg max-h-52 border"
+          className="flex flex-col items-center mt-2 bg-white w-full rounded-lg max-h-52 border"
         >
           <ScrollShadow>
             {matches.map(item => (

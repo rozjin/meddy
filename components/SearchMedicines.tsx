@@ -58,14 +58,14 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
   return (
     <Modal isOpen={isOpen} onClose={onClose} className="flex flex-col items-start justify-between p-4 text-purple-800 bg-purple-50 ring-purple-800 ring-2">
       <ModalContent>
-        <ModalHeader className="flex flex-col items-center justify-between mx-auto">
+        <ModalHeader className="flex flex-col items-center justify-between w-full">
           <div className="flex flex-row items-center justify-between">
             <RiSearchLine className="w-12 h-12 mt-1 mr-2" />
             <h3 className="text-xl">Search medicines</h3>
           </div>
         </ModalHeader>
-        <form className="flex flex-col items-center justify-between mx-auto ring-1 ring-black bg-white rounded-lg pt-4" method="post" onSubmit={onSubmit} action="/api/drug">
-          <ModalBody className="flex flex-col items-center justify-center">
+        <form className="flex flex-col items-center justify-between ring-1 ring-black bg-white rounded-lg pt-4 w-full" method="post" onSubmit={onSubmit} action="/api/drug">
+          <ModalBody className="flex flex-col items-center justify-center w-full">
             <Autocomplete
               isRequired
               isClearable
@@ -78,7 +78,7 @@ export default ({ isOpen, onOpenChange } : { isOpen: boolean, onOpenChange: () =
             />
             {med != null ? (
               <Card 
-                className="flex flex-col items-start w-full max-w-sm justify-between text-purple-700 px-2"
+                className="flex flex-col items-start w-full justify-between text-purple-700 px-2"
               >
                 <ScrollShadow className="max-h-44 w-full bg-transparent border-none">
                   <Accordion isCompact className="mt-2 bg-transparent border-none p-0">
